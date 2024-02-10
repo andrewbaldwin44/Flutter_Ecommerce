@@ -1,29 +1,74 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:shopper/utils/supabase.dart';
+import 'package:go_router/go_router.dart';
 
-class CatalogPage extends StatelessWidget {
+class CatalogPage extends StatefulWidget {
   const CatalogPage({super.key});
+
+  @override
+  State<CatalogPage> createState() => _CatalogPageState();
+}
+
+class _CatalogPageState extends State<CatalogPage> {
+  List<Map<String, dynamic>> products = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchProducts();
+  }
+
+  Future<void> fetchProducts() async {
+    final response = await supabase.from('products').select().limit(10);
+
+    setState(() {
+      products = response;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Catalog'),
-      ),
-      body: GridView.count(
-        crossAxisCount: 2,
-        children: List.generate(10, (index) {
-          return Container(
-            color: Colors.blue,
-            margin: const EdgeInsets.all(10),
-            child: Center(
-              child: Text(
-                (index + 1).toString(),
-                style: const TextStyle(color: Colors.white, fontSize: 20),
-              ),
+        appBar: AppBar(
+          title: const Text('Catalog'),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () => GoRouter.of(context).go('/'),
+          ),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 8.0),
+          child: GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 4,
+              mainAxisSpacing: 8.0,
+              crossAxisSpacing: 8.0,
+              childAspectRatio: 1,
             ),
-          );
-        }),
-      ),
-    );
+            itemCount: products.length,
+            itemBuilder: (context, index) {
+              final product = products[index];
+              final bytes =
+                  base64.decode(product['image_src']?.split(',').last ?? '');
+
+              return GestureDetector(
+                onTap: () {
+                  GoRouter.of(context).go('/product/${product["id"]}');
+                },
+                child: GridTile(
+                  footer: GridTileBar(
+                    backgroundColor: Colors.black45,
+                    title: Text(product['name'] ?? '',
+                        textAlign: TextAlign.center),
+                    subtitle: Text(product['price'] ?? '',
+                        textAlign: TextAlign.center),
+                  ),
+                  child: Image.memory(bytes, fit: BoxFit.cover),
+                ),
+              );
+            },
+          ),
+        ));
   }
 }

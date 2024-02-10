@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shopper/utils/supabase.dart';
 import 'package:shopper/screens/home_page.dart';
 import 'package:shopper/screens/catalog.dart';
+import 'package:shopper/screens/product_details.dart';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  await initializeSupabase();
+
+  runApp(const App());
 }
 
 GoRouter router() {
@@ -19,12 +23,16 @@ GoRouter router() {
         path: '/catalog',
         builder: (context, state) => const CatalogPage(),
       ),
+      GoRoute(
+          path: '/product/:id',
+          builder: (context, state) =>
+              ProductDetails(id: state.pathParameters['id']!)),
     ],
   );
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class App extends StatelessWidget {
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
