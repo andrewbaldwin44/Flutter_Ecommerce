@@ -3,16 +3,13 @@ import 'package:provider/provider.dart';
 import 'package:shopper/models/cart.dart';
 import 'package:shopper/utils/image.dart';
 
-class CartPage extends StatelessWidget {
-  const CartPage({super.key});
+class Cart extends StatelessWidget {
+  const Cart({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Cart'),
-      ),
-      body: Consumer<CartModel>(
+    return Drawer(
+      child: Consumer<CartModel>(
         builder: (context, cart, child) {
           return ListView.builder(
             itemCount: cart.products.length,

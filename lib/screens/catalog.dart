@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:shopper/utils/supabase.dart';
+import 'package:shopper/config/supabase.dart';
 import 'package:shopper/utils/image.dart';
 
 class CatalogPage extends StatefulWidget {

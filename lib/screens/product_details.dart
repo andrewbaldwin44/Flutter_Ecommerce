@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:shopper/utils/supabase.dart';
+import 'package:shopper/config/supabase.dart';
 import 'package:shopper/utils/image.dart';
 import 'package:shopper/models/cart.dart';
 import 'package:provider/provider.dart';
+import 'package:shopper/widgets/cart.dart';
 
 class ProductDetails extends StatefulWidget {
   final String id;
@@ -42,7 +43,6 @@ class _AddButton extends StatelessWidget {
               // words, it is executed outside the build method.
               var cart = context.read<CartModel>();
               cart.add(product);
-              context.go('/cart');
             },
       style: ButtonStyle(
         overlayColor: MaterialStateProperty.resolveWith<Color?>((states) {
@@ -87,6 +87,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           onPressed: () => context.go('/catalog'),
         ),
       ),
+      endDrawer: const Cart(),
       body: product != null
           ? Center(
               child: Column(

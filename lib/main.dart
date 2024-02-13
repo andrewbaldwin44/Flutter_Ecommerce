@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:shopper/screens/cart.dart';
 import 'package:shopper/utils/supabase.dart';
 import 'package:shopper/screens/home_page.dart';
 import 'package:shopper/screens/catalog.dart';
@@ -33,7 +32,6 @@ GoRouter router() {
           path: '/product/:id',
           builder: (context, state) =>
               ProductDetails(id: state.pathParameters['id']!)),
-      GoRoute(path: '/cart', builder: (context, state) => const CartPage())
     ],
   );
 }
