@@ -1,7 +1,7 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:shopper/utils/supabase.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shopper/utils/supabase.dart';
+import 'package:shopper/utils/image.dart';
 
 class CatalogPage extends StatefulWidget {
   const CatalogPage({super.key});
@@ -49,8 +49,6 @@ class _CatalogPageState extends State<CatalogPage> {
             itemCount: products.length,
             itemBuilder: (context, index) {
               final product = products[index];
-              final bytes =
-                  base64.decode(product['image_src']?.split(',').last ?? '');
 
               return GestureDetector(
                 onTap: () {
@@ -64,7 +62,8 @@ class _CatalogPageState extends State<CatalogPage> {
                     subtitle: Text(product['price'] ?? '',
                         textAlign: TextAlign.center),
                   ),
-                  child: Image.memory(bytes, fit: BoxFit.cover),
+                  child: Image.memory(base64DecodeImage(product['image_src']),
+                      fit: BoxFit.cover),
                 ),
               );
             },

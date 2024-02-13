@@ -12,9 +12,18 @@ class HomePage extends StatelessWidget {
         title: const Text("Home Page"),
       ),
       body: Center(
-        child: ElevatedButton(
-          onPressed: () => GoRouter.of(context).go('/catalog'),
-          child: const Text('Go to the catalog'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            ElevatedButton(
+              onPressed: () => GoRouter.of(context).go('/catalog'),
+              child: const Text('Go to the catalog'),
+            ),
+            ElevatedButton(
+              onPressed: () => GoRouter.of(context).go('/cart'),
+              child: const Text('Go to the cart'),
+            ),
+          ],
         ),
       ),
     );
